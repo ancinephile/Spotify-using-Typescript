@@ -52,7 +52,7 @@ const Body: React.FC<BodyProps> = observer(({ store }) => {
           </div>
           <div className="flex flex row">
             {featurePlaylist ? featurePlaylist.slice(0, 6).map((playlist) => {
-              return <PlaylistCards playlist={playlist} store={store} />
+              return <PlaylistCards key = {playlist.uri} playlist={playlist} store={store} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>
@@ -61,7 +61,7 @@ const Body: React.FC<BodyProps> = observer(({ store }) => {
           </div>
           <div className="flex flex row">
             {weekTrack ? weekTrack.slice(0, 6).map((playlist) => {
-              return <PlaylistCards playlist={playlist} store={store} />
+              return <PlaylistCards key = {playlist.uri} playlist={playlist} store={store} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>

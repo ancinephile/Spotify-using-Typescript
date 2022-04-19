@@ -74,7 +74,7 @@ const Search: React.FC<SearchProps> = observer(({ store }) => {
                         <div >
                             <h4 className="text-white text-[25px] pb-[5px] pt-[10px] pl-[5px]" >Albums</h4>
                             <div className="flex flex-row">{searchAlbums.slice(0, 6).map(album => (
-                                <AlbumSearchResult album={album} store={store} />
+                                <AlbumSearchResult key = {album.uri} album={album} store={store} />
                             ))}
                             </div>
                         </div> : <div></div>}
@@ -84,7 +84,7 @@ const Search: React.FC<SearchProps> = observer(({ store }) => {
                         <div>
                             <h4 className="text-white text-[25px] pb-[5px] pt-[5px] pl-[5px]">Songs</h4>
                             <div className="flex flex-col">{searchTracks.map(track => (
-                                <TrackSearchResult track={track} store={store} />
+                                <TrackSearchResult key = {track.uri} track={track} store={store} />
                             ))}
                             </div>
                         </div> : <div></div>}
