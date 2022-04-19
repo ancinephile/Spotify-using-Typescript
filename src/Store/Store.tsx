@@ -8,11 +8,13 @@ const userDetails = new UserDetails();
 const artistTrackService = new ArtistTrackService();
 const featuredPlaylistService = new FeaturedPlaylistService();
 export class Store {
+    isPlaying: boolean = false;
+    uri: string = "";
     user: any = null;
     ArtistTracks: Playlist[] | null = null;
     FeaturedPlaylist: Playlist[] | null = null;
     SearchAlbums: Playlist[] | null = null;
-    SearchTracks :Playlist[] | null = null;
+    SearchTracks: Playlist[] | null = null;
     constructor() {
         makeAutoObservable(this);
     }
@@ -45,7 +47,15 @@ export class Store {
         this.SearchAlbums = data;
     }
 
-    setSearchTracks(data: Playlist[]){
+    setSearchTracks(data: Playlist[]) {
         this.SearchTracks = data;
+    }
+
+    setPlaying(data: boolean) {
+        this.isPlaying = data;
+    }
+
+    setURI(data: string) {
+        this.uri = data;
     }
 }

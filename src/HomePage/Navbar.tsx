@@ -22,7 +22,7 @@ const Navbar: React.FC = observer(() => {
 
     useEffect(() => {
         userDetail();
-    });
+    }, []);
 
     if (user) {
         if (user.data.images[0]) {
@@ -45,11 +45,11 @@ const Navbar: React.FC = observer(() => {
                 {user ?
                     <Link to="/profile" >
                         {show_profilePic ? <img className="absolute right-0 top-[30px] w-[50px] h-[50px] rounded-full " src={user.data.images[0].url} alt="" /> :
-                             <img className="absolute right-0 top-[30px] w-[50px] h-[50px] rounded-full " src={dp} alt="" />}
+                            <img className="absolute right-0 top-[30px] w-[50px] h-[50px] rounded-full " src={dp} alt="" />}
                     </Link>
                     :
                     <Link to="/profile">
-                         <img className="absolute right-0 top-[30px] w-[50px] h-[50px] rounded-full " src={dp} alt="" />
+                        <img className="absolute right-0 top-[30px] w-[50px] h-[50px] rounded-full " src={dp} alt="" />
                     </Link>
                 }
             </div >

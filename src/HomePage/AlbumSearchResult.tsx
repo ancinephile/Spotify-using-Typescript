@@ -1,15 +1,19 @@
 import React from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist'
+import { Store } from '../Store/Store';
 
 interface PlaylistCard {
-    album: Playlist
+    album: Playlist,
+    store: Store
 }
 
-const AlbumSearchResult:React.FC<PlaylistCard>=({album})=> {
+const AlbumSearchResult: React.FC<PlaylistCard> = ({ album, store }) => {
     const spotify = new SpotifyWebApi();
-    const image= JSON.parse(JSON.stringify(album.images[0]));
-    const playAlbum = (album:Playlist) => {
+    const image = JSON.parse(JSON.stringify(album.images[0]));
+    const playAlbum = (album: Playlist) => {
+        store.setPlaying(true);
+        store.setURI(album.uri);
         spotify.setAccessToken(window.localStorage.getItem('token'));
         spotify.play({
             context_uri: album?.uri
@@ -17,7 +21,7 @@ const AlbumSearchResult:React.FC<PlaylistCard>=({album})=> {
     };
 
     return (
-        <div className="cursor-pointer" onClick={()=>playAlbum(album)}>
+        <div className="cursor-pointer" onClick={() => playAlbum(album)}>
             <div className="p-[10px] cursor-pointer "  >
                 <img src={image["url"]} alt="" className="w-[100%]" />
                 <div className="container">

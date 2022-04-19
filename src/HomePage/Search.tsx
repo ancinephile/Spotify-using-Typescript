@@ -6,27 +6,29 @@ import { Store } from '../Store/Store';
 import AlbumSearchResult from './AlbumSearchResult';
 import TrackSearchResult from './TrackSearchResult';
 
-const spotifyStore = new Store();
+interface SearchProps {
+    store: Store;
+}
 
-const Search: React.FC = observer(() => {
+const Search: React.FC<SearchProps> = observer(({ store }) => {
     const [search, setSearch] = useState<string>("");
     const [types, setTypes] = useState<string>("track,album");
     const token: string | null = window.localStorage.getItem("token");
-    let searchAlbums: Playlist[] | null = spotifyStore.SearchAlbums;
-    let searchTracks: Playlist[] | null = spotifyStore.SearchTracks;
+    let searchAlbums: Playlist[] | null = store.SearchAlbums;
+    let searchTracks: Playlist[] | null = store.SearchTracks;
 
     useEffect(() => {
 
         if (!search) {
-            spotifyStore.setSearchAlbums([]);
-            spotifyStore.setSearchTracks([]);
+            store.setSearchAlbums([]);
+            store.setSearchTracks([]);
         }
 
         if (types === "track") {
-            spotifyStore.setSearchAlbums([]);
+            store.setSearchAlbums([]);
         };
         if (types === "album") {
-            spotifyStore.setSearchTracks([]);
+            store.setSearchTracks([]);
         };
 
         if (search) {
@@ -41,10 +43,10 @@ const Search: React.FC = observer(() => {
                 }
             }).then((response) => {
                 if (response.data.tracks) {
-                    spotifyStore.setSearchTracks(response.data.tracks.items);
+                    store.setSearchTracks(response.data.tracks.items);
                 }
                 if (response.data.albums) {
-                    spotifyStore.setSearchAlbums(response.data.albums.items);
+                    store.setSearchAlbums(response.data.albums.items);
                 }
             })
         }
@@ -72,7 +74,7 @@ const Search: React.FC = observer(() => {
                         <div >
                             <h4 className="text-white text-[25px] pb-[5px] pt-[10px] pl-[5px]" >Albums</h4>
                             <div className="flex flex-row">{searchAlbums.slice(0, 6).map(album => (
-                                <AlbumSearchResult album={album} />
+                                <AlbumSearchResult album={album} store={store} />
                             ))}
                             </div>
                         </div> : <div></div>}
@@ -82,7 +84,7 @@ const Search: React.FC = observer(() => {
                         <div>
                             <h4 className="text-white text-[25px] pb-[5px] pt-[5px] pl-[5px]">Songs</h4>
                             <div className="flex flex-col">{searchTracks.map(track => (
-                                <TrackSearchResult track={track} />
+                                <TrackSearchResult track={track} store={store} />
                             ))}
                             </div>
                         </div> : <div></div>}

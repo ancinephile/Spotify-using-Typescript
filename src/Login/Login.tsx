@@ -3,7 +3,7 @@ import logo from "./logo.png";
 /*   Please Provide client Id of Premium Spotify Developer Account and 
      Login with Credentials of given Premium Spotify Account   */
 
-const client_id: string = '990d8e0847694b62ac476b69a21fd0f8';
+const client_id: string = '3943bfeacfaa4c589182eac2dcd16330';
 const redirect_uri: string = 'http://localhost:3000';
 const AUTH_URL: string = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
 

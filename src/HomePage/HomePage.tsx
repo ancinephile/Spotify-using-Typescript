@@ -1,12 +1,16 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Body from './Body';
+import { Store } from '../Store/Store';
 
-function HomePage() {
+interface SpotifyProps {
+  store: Store;
+}
+const HomePage: React.FC<SpotifyProps> = ({ store }) => {
   return (
     <div className="flex flex-col">
       <Navbar></Navbar>
-      <Body ></Body>
+      <Body store={store}></Body>
     </div>
   )
 }

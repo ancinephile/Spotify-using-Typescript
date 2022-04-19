@@ -18,7 +18,7 @@ const ProfileView: React.FC = () => {
     }
     useEffect(() => {
         userDetail();
-    });
+    }, []);
 
 
     if (user) {

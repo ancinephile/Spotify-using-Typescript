@@ -4,19 +4,21 @@ import { Playlist } from '../Model/Playlist';
 import { Store } from '../Store/Store';
 import PlaylistCards from './PlaylistCards';
 
-const spotifyStore = new Store();
+interface BodyProps {
+  store: Store;
+}
 
-const Body: React.FC = observer(() => {
+const Body: React.FC<BodyProps> = observer(({ store }) => {
   var isLoading: boolean = true;
   const token: string | null = localStorage.getItem('token');
-  const featurePlaylist: Playlist[] | null = spotifyStore.FeaturedPlaylist;
-  const weekTrack: Playlist[] | null = spotifyStore.ArtistTracks;
+  const featurePlaylist: Playlist[] | null = store.FeaturedPlaylist;
+  const weekTrack: Playlist[] | null = store.ArtistTracks;
 
   const FeaturedPlaylist = async () => {
     if (token) {
-      await spotifyStore.getFeaturedPlaylist(token).then(
+      await store.getFeaturedPlaylist(token).then(
         res => {
-          spotifyStore.setFeaturedPlaylist(res.data.playlists.items);
+          store.setFeaturedPlaylist(res.data.playlists.items);
         }
       );
     }
@@ -24,9 +26,9 @@ const Body: React.FC = observer(() => {
 
   const ArtistTrack = async () => {
     if (token) {
-      await spotifyStore.getArtistTrack(token).then(
+      await store.getArtistTrack(token).then(
         res => {
-          spotifyStore.setArtistTrack(res.data.items);
+          store.setArtistTrack(res.data.items);
         }
       )
     }
@@ -35,7 +37,7 @@ const Body: React.FC = observer(() => {
   useEffect(() => {
     FeaturedPlaylist();
     ArtistTrack();
-  });
+  }, []);
 
   if (featurePlaylist && weekTrack) {
     isLoading = false;
@@ -50,7 +52,7 @@ const Body: React.FC = observer(() => {
           </div>
           <div className="flex flex row">
             {featurePlaylist ? featurePlaylist.slice(0, 6).map((playlist) => {
-              return <PlaylistCards playlist={playlist} />
+              return <PlaylistCards playlist={playlist} store={store} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>
@@ -59,7 +61,7 @@ const Body: React.FC = observer(() => {
           </div>
           <div className="flex flex row">
             {weekTrack ? weekTrack.slice(0, 6).map((playlist) => {
-              return <PlaylistCards playlist={playlist} />
+              return <PlaylistCards playlist={playlist} store={store} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>
