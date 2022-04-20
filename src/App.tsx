@@ -1,10 +1,14 @@
 import LandingPage from './LandingPage'
+import { StoreProvider } from './Store/Store';
 
 function App() {
   return (
-    <div className="App">
-     <LandingPage />
-    </div>
+    <StoreProvider>
+      <div className="App">
+        <LandingPage />
+      </div>
+    </StoreProvider>
+
   );
 }
 

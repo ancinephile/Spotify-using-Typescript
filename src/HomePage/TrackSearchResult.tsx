@@ -1,14 +1,14 @@
 import React from 'react'
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist'
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 
 interface PlaylistCard {
-    track: Playlist,
-    store: Store
+    track: Playlist
 }
 
-const TrackSearchResult: React.FC<PlaylistCard> = ({ track, store }) => {
+const TrackSearchResult: React.FC<PlaylistCard> = ({ track }) => {
+    const store = useStore();
     const Track = JSON.parse(JSON.stringify(track.album));
     const spotify = new SpotifyWebApi();
     const playTrack = (track: Playlist) => {
@@ -16,7 +16,7 @@ const TrackSearchResult: React.FC<PlaylistCard> = ({ track, store }) => {
         store.setURI(track.uri);
         spotify.setAccessToken(window.localStorage.getItem('token'));
         spotify.play({
-            context_uri: track?.uri
+            uris: [track?.uri]
         })
     };
 

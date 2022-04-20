@@ -1,13 +1,12 @@
 import React from 'react';
 import { useEffect } from 'react'
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 import { Link } from "react-router-dom";
 import { observer } from 'mobx-react'
 import dp from './empty_profile.png';
 
-const spotifyStore = new Store();
-
 const Navbar: React.FC = observer(() => {
+    const spotifyStore = useStore();
     const date: Date = new Date();
     var time: number = date.getHours();
     var heading: string = "";

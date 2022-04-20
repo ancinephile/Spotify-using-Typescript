@@ -7,9 +7,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import Search from './HomePage/Search';
 import Footer from './Footer';
-import { Store } from './Store/Store';
-
-const spotifyStore = new Store()
 
 const LandingPage: React.FC = observer(() => {
     const [token, setToken] = useState<string>("");
@@ -38,14 +35,14 @@ const LandingPage: React.FC = observer(() => {
                         </div>
                         <div className="w-5/6 relative">
                             <Routes>
-                                <Route path="/" element={<HomePage store={spotifyStore} />} />
+                                <Route path="/" element={<HomePage />} />
                                 <Route path="profile" element={<Profile />} />
-                                <Route path="search" element={<Search store={spotifyStore} />} />
+                                <Route path="search" element={<Search />} />
                             </Routes>
                         </div>
                     </div>
                     <div className="fixed bottom-0 w-[100%]">
-                        <Footer store={spotifyStore} />
+                        <Footer />
                     </div>
                 </div>
                 </Router>

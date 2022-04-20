@@ -1,3 +1,4 @@
+import React from "react";
 import { makeAutoObservable } from 'mobx';
 import { Playlist } from '../Model/Playlist';
 import { ArtistTrackService } from '../Services/ArtistTrackService';
@@ -58,4 +59,18 @@ export class Store {
     setURI(data: string) {
         this.uri = data;
     }
+
 }
+
+export const storeContext = React.createContext<Store>({} as Store);
+
+export const StoreProvider: React.FC = ({ children }) => {
+    const store = new Store();
+
+    return (
+        <storeContext.Provider value={store}>
+            {children}
+        </storeContext.Provider>
+    );
+};
+export const useStore = () => React.useContext(storeContext);

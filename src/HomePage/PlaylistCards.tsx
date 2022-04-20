@@ -2,14 +2,14 @@ import { observer } from 'mobx-react';
 import React from 'react'
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist';
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 
 interface PlaylistCard {
     playlist: Playlist,
-    store: Store
 }
 
-const PlaylistCards: React.FC<PlaylistCard> = observer(({ playlist, store }) => {
+const PlaylistCards: React.FC<PlaylistCard> = observer(({ playlist }) => {
+    const store = useStore();
     const spotify = new SpotifyWebApi();
     const url = JSON.stringify(playlist.images[0])
     const url1 = JSON.parse(url);

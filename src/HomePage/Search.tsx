@@ -2,15 +2,12 @@ import axios from 'axios';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react'
 import { Playlist } from '../Model/Playlist';
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 import AlbumSearchResult from './AlbumSearchResult';
 import TrackSearchResult from './TrackSearchResult';
 
-interface SearchProps {
-    store: Store;
-}
-
-const Search: React.FC<SearchProps> = observer(({ store }) => {
+const Search: React.FC = observer(() => {
+    const store = useStore();
     const [search, setSearch] = useState<string>("");
     const [types, setTypes] = useState<string>("track,album");
     const token: string | null = window.localStorage.getItem("token");
@@ -74,7 +71,7 @@ const Search: React.FC<SearchProps> = observer(({ store }) => {
                         <div >
                             <h4 className="text-white text-[25px] pb-[5px] pt-[10px] pl-[5px]" >Albums</h4>
                             <div className="flex flex-row">{searchAlbums.slice(0, 6).map(album => (
-                                <AlbumSearchResult key = {album.uri} album={album} store={store} />
+                                <AlbumSearchResult key={album.uri} album={album} />
                             ))}
                             </div>
                         </div> : <div></div>}
@@ -84,7 +81,7 @@ const Search: React.FC<SearchProps> = observer(({ store }) => {
                         <div>
                             <h4 className="text-white text-[25px] pb-[5px] pt-[5px] pl-[5px]">Songs</h4>
                             <div className="flex flex-col">{searchTracks.map(track => (
-                                <TrackSearchResult key = {track.uri} track={track} store={store} />
+                                <TrackSearchResult key={track.uri} track={track} />
                             ))}
                             </div>
                         </div> : <div></div>}

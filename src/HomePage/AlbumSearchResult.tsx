@@ -1,14 +1,14 @@
 import React from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist'
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 
 interface PlaylistCard {
-    album: Playlist,
-    store: Store
+    album: Playlist
 }
 
-const AlbumSearchResult: React.FC<PlaylistCard> = ({ album, store }) => {
+const AlbumSearchResult: React.FC<PlaylistCard> = ({ album }) => {
+    const store = useStore();
     const spotify = new SpotifyWebApi();
     const image = JSON.parse(JSON.stringify(album.images[0]));
     const playAlbum = (album: Playlist) => {

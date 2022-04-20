@@ -1,14 +1,11 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { Playlist } from '../Model/Playlist';
-import { Store } from '../Store/Store';
+import { useStore } from '../Store/Store';
 import PlaylistCards from './PlaylistCards';
 
-interface BodyProps {
-  store: Store;
-}
-
-const Body: React.FC<BodyProps> = observer(({ store }) => {
+const Body: React.FC = observer(() => {
+  const store = useStore();
   var isLoading: boolean = true;
   const token: string | null = localStorage.getItem('token');
   const featurePlaylist: Playlist[] | null = store.FeaturedPlaylist;
@@ -52,7 +49,7 @@ const Body: React.FC<BodyProps> = observer(({ store }) => {
           </div>
           <div className="flex flex row">
             {featurePlaylist ? featurePlaylist.slice(0, 6).map((playlist) => {
-              return <PlaylistCards key = {playlist.uri} playlist={playlist} store={store} />
+              return <PlaylistCards key={playlist.uri} playlist={playlist} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>
@@ -61,7 +58,7 @@ const Body: React.FC<BodyProps> = observer(({ store }) => {
           </div>
           <div className="flex flex row">
             {weekTrack ? weekTrack.slice(0, 6).map((playlist) => {
-              return <PlaylistCards key = {playlist.uri} playlist={playlist} store={store} />
+              return <PlaylistCards key={playlist.uri} playlist={playlist} />
             }) :
               <div className="text-center">Loading...</div>}
           </div>
