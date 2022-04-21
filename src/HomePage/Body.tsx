@@ -1,21 +1,20 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { Playlist } from '../Model/Playlist';
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 import PlaylistCards from './PlaylistCards';
 
 const Body: React.FC = observer(() => {
-  const store = useStore();
-  var isLoading: boolean = true;
+  let isLoading: boolean = true;
   const token: string | null = localStorage.getItem('token');
-  const featurePlaylist: Playlist[] | null = store.FeaturedPlaylist;
-  const weekTrack: Playlist[] | null = store.ArtistTracks;
+  const featurePlaylist: Playlist[] | null = Store.FeaturedPlaylist;
+  const weekTrack: Playlist[] | null = Store.ArtistTracks;
 
   const FeaturedPlaylist = async () => {
     if (token) {
-      await store.getFeaturedPlaylist(token).then(
+      await Store.getFeaturedPlaylist(token).then(
         res => {
-          store.setFeaturedPlaylist(res.data.playlists.items);
+          Store.setFeaturedPlaylist(res.data.playlists.items);
         }
       );
     }
@@ -23,9 +22,9 @@ const Body: React.FC = observer(() => {
 
   const ArtistTrack = async () => {
     if (token) {
-      await store.getArtistTrack(token).then(
+      await Store.getArtistTrack(token).then(
         res => {
-          store.setArtistTrack(res.data.items);
+          Store.setArtistTrack(res.data.items);
         }
       )
     }

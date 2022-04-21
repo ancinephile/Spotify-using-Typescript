@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Login, { ParamsFromUrl } from "./Login/Login";
+import Login from "./Login/Login";
+import { ParamsFromUrl } from './Utils/ParamsFromUrl'
 import Sidebar from "../src/HomePage/Sidebar";
 import HomePage from './HomePage/HomePage';
 import Profile from './HomePage/Profile';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { observer } from 'mobx-react';
 import Search from './HomePage/Search';
 import Footer from './Footer';
 
-const LandingPage: React.FC = observer(() => {
+const LandingPage: React.FC = () => {
     const [token, setToken] = useState<string>("");
 
     const logout = () => {
@@ -49,6 +49,6 @@ const LandingPage: React.FC = observer(() => {
                 : <Login />}
         </div>
     )
-})
+}
 
 export default LandingPage

@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react'
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 import { Link } from "react-router-dom";
 import { observer } from 'mobx-react'
 import dp from './empty_profile.png';
 
 const Navbar: React.FC = observer(() => {
-    const spotifyStore = useStore();
     const date: Date = new Date();
-    var time: number = date.getHours();
-    var heading: string = "";
-    var show_profilePic: boolean = false;
-    const user: any = spotifyStore.user;
+    const [heading, setHeading] = useState("");
+    let show_profilePic: boolean = false;
+    const user: any = Store.user;
     const token: string | null = localStorage.getItem('token');
     const userDetail = async () => {
         if (token) {
-            await spotifyStore.users(token).then(res => spotifyStore.setUser(res));
+            await Store.users(token).then(res => Store.setUser(res));
         }
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            let time: number = date.getHours();
+            if (time >= 6 && time < 12) {
+                setHeading("Good Morning!");
+            } else if (time >= 12 && time < 16) {
+                setHeading("Good Afternoon!");
+            } else {
+                setHeading("Good Evening!");
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        }
+    }, [])
 
     useEffect(() => {
         userDetail();
@@ -27,14 +42,6 @@ const Navbar: React.FC = observer(() => {
         if (user.data.images[0]) {
             show_profilePic = true;
         }
-    }
-
-    if (time >= 6 && time < 12) {
-        heading = "Good Morning!";
-    } else if (time >= 12 && time < 16) {
-        heading = "Good Afternoon!";
-    } else {
-        heading = "Good Evening!"
     }
 
     return (

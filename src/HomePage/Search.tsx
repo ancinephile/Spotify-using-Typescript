@@ -2,30 +2,29 @@ import axios from 'axios';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react'
 import { Playlist } from '../Model/Playlist';
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 import AlbumSearchResult from './AlbumSearchResult';
 import TrackSearchResult from './TrackSearchResult';
 
 const Search: React.FC = observer(() => {
-    const store = useStore();
     const [search, setSearch] = useState<string>("");
     const [types, setTypes] = useState<string>("track,album");
     const token: string | null = window.localStorage.getItem("token");
-    let searchAlbums: Playlist[] | null = store.SearchAlbums;
-    let searchTracks: Playlist[] | null = store.SearchTracks;
+    let searchAlbums: Playlist[] | null = Store.SearchAlbums;
+    let searchTracks: Playlist[] | null = Store.SearchTracks;
 
     useEffect(() => {
 
         if (!search) {
-            store.setSearchAlbums([]);
-            store.setSearchTracks([]);
+            Store.setSearchAlbums([]);
+            Store.setSearchTracks([]);
         }
 
         if (types === "track") {
-            store.setSearchAlbums([]);
+            Store.setSearchAlbums([]);
         };
         if (types === "album") {
-            store.setSearchTracks([]);
+            Store.setSearchTracks([]);
         };
 
         if (search) {
@@ -40,10 +39,10 @@ const Search: React.FC = observer(() => {
                 }
             }).then((response) => {
                 if (response.data.tracks) {
-                    store.setSearchTracks(response.data.tracks.items);
+                    Store.setSearchTracks(response.data.tracks.items);
                 }
                 if (response.data.albums) {
-                    store.setSearchAlbums(response.data.albums.items);
+                    Store.setSearchAlbums(response.data.albums.items);
                 }
             })
         }

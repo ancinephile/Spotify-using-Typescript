@@ -1,14 +1,9 @@
 import React from "react";
 import { makeAutoObservable } from 'mobx';
 import { Playlist } from '../Model/Playlist';
-import { ArtistTrackService } from '../Services/ArtistTrackService';
-import { FeaturedPlaylistService } from '../Services/FeaturedPlaylistService';
-import { UserDetails } from '../Services/UserDetails';
+import { getArtistTrack, getFeaturedPlaylist, getDetails } from '../Services/Services';
 
-const userDetails = new UserDetails();
-const artistTrackService = new ArtistTrackService();
-const featuredPlaylistService = new FeaturedPlaylistService();
-export class Store {
+class StoreImpl {
     isPlaying: boolean = false;
     uri: string = "";
     user: any = null;
@@ -21,15 +16,15 @@ export class Store {
     }
 
     users = async (token: string) => {
-        return userDetails.getDetails(token);
+        return getDetails(token);
     }
 
     getArtistTrack = async (token: string) => {
-        return artistTrackService.getArtistTrack(token);
+        return getArtistTrack(token);
     }
 
     getFeaturedPlaylist = async (token: string) => {
-        return featuredPlaylistService.getFeaturedPlaylist(token);
+        return getFeaturedPlaylist(token);
     }
 
     setUser(data: any) {
@@ -62,15 +57,4 @@ export class Store {
 
 }
 
-export const storeContext = React.createContext<Store>({} as Store);
-
-export const StoreProvider: React.FC = ({ children }) => {
-    const store = new Store();
-
-    return (
-        <storeContext.Provider value={store}>
-            {children}
-        </storeContext.Provider>
-    );
-};
-export const useStore = () => React.useContext(storeContext);
+export const Store = new StoreImpl();

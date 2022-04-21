@@ -1,19 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react'
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 import { useEffect } from 'react'
 import dp from './empty_profile.png';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 var openInSpotify: string = "";
 const ProfileView: React.FC = () => {
-    const spotifyStore = useStore();
-    var Show_pic = false;
-    const user = spotifyStore.user;
+    let Show_pic:boolean = false;
+    const user = Store.user;
     const token: string | null = localStorage.getItem('token');
     const userDetail = async () => {
         if (token) {
-            await spotifyStore.users(token).then(res => spotifyStore.setUser(res));
+            await Store.users(token).then(res => Store.setUser(res));
         }
     }
     useEffect(() => {

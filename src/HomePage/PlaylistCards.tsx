@@ -2,20 +2,19 @@ import { observer } from 'mobx-react';
 import React from 'react'
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist';
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 
 interface PlaylistCard {
     playlist: Playlist,
 }
 
 const PlaylistCards: React.FC<PlaylistCard> = observer(({ playlist }) => {
-    const store = useStore();
     const spotify = new SpotifyWebApi();
     const url = JSON.stringify(playlist.images[0])
     const url1 = JSON.parse(url);
     const playPlaylist = (album: Playlist) => {
-        store.setPlaying(true);
-        store.setURI(album.uri);
+        Store.setPlaying(true);
+        Store.setURI(album.uri);
         spotify.setAccessToken(window.localStorage.getItem('token'));
         spotify.play({
             context_uri: album?.uri

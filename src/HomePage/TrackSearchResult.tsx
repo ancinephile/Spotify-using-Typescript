@@ -1,19 +1,19 @@
+import { observer } from 'mobx-react';
 import React from 'react'
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Playlist } from '../Model/Playlist'
-import { useStore } from '../Store/Store';
+import { Store } from '../Store/Store';
 
 interface PlaylistCard {
     track: Playlist
 }
 
-const TrackSearchResult: React.FC<PlaylistCard> = ({ track }) => {
-    const store = useStore();
+const TrackSearchResult: React.FC<PlaylistCard> = observer(({ track }) => {
     const Track = JSON.parse(JSON.stringify(track.album));
     const spotify = new SpotifyWebApi();
     const playTrack = (track: Playlist) => {
-        store.setPlaying(true);
-        store.setURI(track.uri);
+        Store.setPlaying(true);
+        Store.setURI(track.uri);
         spotify.setAccessToken(window.localStorage.getItem('token'));
         spotify.play({
             uris: [track?.uri]
@@ -32,5 +32,6 @@ const TrackSearchResult: React.FC<PlaylistCard> = ({ track }) => {
         </div>
     )
 }
+)
 
 export default TrackSearchResult
